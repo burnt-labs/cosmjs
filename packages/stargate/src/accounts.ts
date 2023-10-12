@@ -11,6 +11,7 @@ import {
 } from "cosmjs-types/cosmos/vesting/v1beta1/vesting";
 import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
+import {AbstractAccount} from "./types/generated/abstractaccount/v1/account";
 
 export interface Account {
   /** Bech32 account address */
@@ -51,7 +52,8 @@ export function accountFromAny(input: Any): Account {
 
   switch (typeUrl) {
     // auth
-
+    case "/abstractaccount.v1.AbstractAccount":
+      return accountFromBaseAccount(AbstractAccount.decode(value));
     case "/cosmos.auth.v1beta1.BaseAccount":
       return accountFromBaseAccount(BaseAccount.decode(value));
     case "/cosmos.auth.v1beta1.ModuleAccount": {
